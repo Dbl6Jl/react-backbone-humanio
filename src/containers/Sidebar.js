@@ -2,7 +2,7 @@
  * Created by dsptushkin on 12.08.17.
  */
 import React, {Component} from 'react';
-import {Button, Col, FormControl, FormGroup, Grid, HelpBlock, Row} from 'react-bootstrap';
+import {Button, ButtonToolbar, Col, FormControl, FormGroup, Grid, HelpBlock, Row} from 'react-bootstrap';
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -13,6 +13,10 @@ export default class Sidebar extends Component {
   }
 
   render() {
+    const {humans} = this.props;
+    const humansList = humans.map((el, i) => (
+      <li key={el.name + i}>el.name</li>
+    ));
     return (
       <div className="sidebar">
         <FormGroup controlId="formBasicText">
@@ -22,11 +26,19 @@ export default class Sidebar extends Component {
             placeholder="Search.."
             onChange={this.handleChange}
           />
+          <Button bsStyle="primary">new contact</Button>
         </FormGroup>
+        <ul>
+          {humansList}
+        </ul>
       </div>
     );
   }
-  handleChange = () => {
-
+  handleChange = (e) => {
+    this.setState({value: e.target.value});
   }
 }
+
+Sidebar.defaultProps = {
+  humans: []
+};

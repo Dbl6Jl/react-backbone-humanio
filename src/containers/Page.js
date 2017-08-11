@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Grid, Row} from 'react-bootstrap';
 import Sidebar from './Sidebar';
+import HumanInfoForm from './HumanInfoForm';
 
 export default class Page extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class Page extends Component {
       <Grid>
         <Row className="show-grid">
           <Col xs={6} md={4}><Sidebar /></Col>
-          <Col xs={6} md={4}><code>&lt;{'Col xs={6} md={4}'} /&gt;</code></Col>
+          <Col xs={6} md={4}><HumanInfoForm /></Col>
           <Col xsHidden md={4}><code>&lt;{'Col xsHidden md={4}'} /&gt;</code></Col>
         </Row>
       </Grid>
