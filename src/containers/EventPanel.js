@@ -26,5 +26,5 @@ export default class EventPanel extends Component {
   }
 }
 EventPanel.defaultProps = {
-  events: [{text: 'testEvent', date: 'today'}]
+  events: []
 };
