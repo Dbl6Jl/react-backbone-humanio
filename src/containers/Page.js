@@ -17,16 +17,17 @@ export default class Page extends Component {
     }
   }
   render() {
+    const {selectHuman, onAdd, onSave, onDelete} = this;
     const { humans } = this.props;
     const {selectedHuman} = this.state;
     return (
       <Grid>
         <Row className="show-grid">
           <Col xs={6} md={4}>
-            <Sidebar onAdd={this.onAdd} onSelect={this.selectHuman} models={{humans}} />
+            <Sidebar onAdd={onAdd} onSelect={selectHuman} models={{humans}} />
           </Col>
-          <Col xs={6} md={4}><HumanInfoForm onSave={this.onSave} models={{humans}} selectedHuman={selectedHuman}/></Col>
-          <Col xsHidden md={4}><EventPanel models={{humans}} selectedHuman={selectedHuman}/></Col>
+          <Col xs={6} md={4}><HumanInfoForm onSave={onSave} models={{humans}} selectedHuman={selectedHuman}/></Col>
+          <Col xsHidden md={4}><EventPanel models={{humans}} selectedHuman={selectedHuman} onDelete={onDelete}/></Col>
         </Row>
       </Grid>
     );
@@ -46,6 +47,13 @@ export default class Page extends Component {
   };
   selectHuman = (index) => {
     this.setState({selectedHuman: index});
+  };
+  onDelete = () => {
+    const {humans} = this.props;
+    const {selectedHuman} = this.state;
+    if(selectedHuman !== NEW_HUMAN_INDEX) {
+      this.setState({selectedHuman: NEW_HUMAN_INDEX}, ()=>humans.remove(humans.at(selectedHuman)));
+    }
   }
 }
 

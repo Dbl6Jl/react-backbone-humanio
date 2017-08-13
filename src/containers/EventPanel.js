@@ -10,7 +10,7 @@ import {NEW_HUMAN_INDEX} from './Page';
 class EventPanel extends Component {
 
   render() {
-    const {humans, selectedHuman} = this.props;
+    const {humans, selectedHuman, onDelete} = this.props;
     const events = selectedHuman !== NEW_HUMAN_INDEX ? humans[selectedHuman].events : [];
     const list = events.map((el, i) => (
       <li key={el.text + el.i}>
@@ -25,7 +25,7 @@ class EventPanel extends Component {
         <ul>
           {list}
         </ul>
-        <Button bsStyle="warning">delete human</Button>
+        <Button bsStyle="warning" onClick={onDelete}>delete human</Button>
       </div>
     );
   }
