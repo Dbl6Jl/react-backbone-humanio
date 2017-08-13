@@ -17,10 +17,14 @@ class HumanInfoForm extends Component {
     this.state = initialState;
   }
   componentWillReceiveProps(nextProps) {
-    const {selectedHuman: newId} = nextProps;
+    const {selectedHuman: newId, humans} = nextProps;
     const {selectedHuman: id} = this.props;
-    if(id !== NEW_HUMAN_INDEX && newId === NEW_HUMAN_INDEX) {
-      this.setState(initialState);
+    if(id !== newId) {
+      if(newId === NEW_HUMAN_INDEX) {
+        this.setState(initialState);
+      } else {
+        this.setState(humans[newId]);
+      }
     }
   }
   render() {

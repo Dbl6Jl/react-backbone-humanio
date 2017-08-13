@@ -12,7 +12,6 @@ class EventPanel extends Component {
   render() {
     const {humans, selectedHuman} = this.props;
     const events = selectedHuman !== NEW_HUMAN_INDEX ? humans[selectedHuman].events : [];
-    debugger;
     const list = events.map((el, i) => (
       <li key={el.text + el.i}>
         {el.date}
