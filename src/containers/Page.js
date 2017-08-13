@@ -37,11 +37,9 @@ export default class Page extends Component {
       humans.at(selectedHuman).set(human)
     } else {
       const nextLastIndex = humans.length;
-      debugger;
       this.setState({selectedHuman: nextLastIndex});
       humans.add(human);
     }
-
   };
   onAdd = () => {
     this.setState({selectedHuman: NEW_HUMAN_INDEX});

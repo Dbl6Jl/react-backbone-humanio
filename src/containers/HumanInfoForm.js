@@ -18,13 +18,9 @@ class HumanInfoForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const {selectedHuman: newId} = nextProps;
-    const {selectedHuman: id, humans} = this.props;
-    if(id !== newId) {
-      if(newId === NEW_HUMAN_INDEX) {
-        this.setState(initialState);
-      } else {
-        this.setState(humans[newId]);
-      }
+    const {selectedHuman: id} = this.props;
+    if(id !== NEW_HUMAN_INDEX && newId === NEW_HUMAN_INDEX) {
+      this.setState(initialState);
     }
   }
   render() {
