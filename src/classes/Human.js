@@ -5,10 +5,11 @@ import {Model} from 'backbone';
 
 const Human = Model.extend({
   defaults: function() {
+    const date = new Date().toLocaleDateString();
     return {
       name: '',
       notes: '',
-      events: []
+      events: [{text: 'created', date}, {text: 'changed', date}]
     };
   }
 });

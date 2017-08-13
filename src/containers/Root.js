@@ -3,7 +3,7 @@ import Page from './Page';
 import HumanCollection from '../classes/HumanCollection';
 const humans = new HumanCollection();
 const Root = () => (
-  <div>Hello react and backbone!
+  <div>
     <Page humans={humans}/>
   </div>
 );

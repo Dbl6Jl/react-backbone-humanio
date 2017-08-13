@@ -8,6 +8,7 @@ import HumanInfoForm from './HumanInfoForm';
 import EventPanel from './EventPanel';
 
 export const NEW_HUMAN_INDEX = -1;
+
 export default class Page extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +26,7 @@ export default class Page extends Component {
             <Sidebar onAdd={this.onAdd} onSelect={this.selectHuman} models={{humans}} />
           </Col>
           <Col xs={6} md={4}><HumanInfoForm onSave={this.onSave} models={{humans}} selectedHuman={selectedHuman}/></Col>
-          <Col xsHidden md={4}><EventPanel /></Col>
+          <Col xsHidden md={4}><EventPanel models={{humans}} selectedHuman={selectedHuman}/></Col>
         </Row>
       </Grid>
     );
@@ -36,8 +37,7 @@ export default class Page extends Component {
     if(selectedHuman !== NEW_HUMAN_INDEX){
       humans.at(selectedHuman).set(human)
     } else {
-      const nextLastIndex = humans.length;
-      this.setState({selectedHuman: nextLastIndex});
+      this.setState({selectedHuman: humans.length});
       humans.add(human);
     }
   };
