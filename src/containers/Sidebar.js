@@ -3,8 +3,10 @@
  */
 import React, {Component} from 'react';
 import {Button, FormControl, FormGroup} from 'react-bootstrap';
+import { connectBackboneToReact } from 'connect-backbone-to-react';
+import HumanCollection from '../classes/HumanCollection';
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,9 +17,8 @@ export default class Sidebar extends Component {
   render() {
     const {humans, onAdd} = this.props;
     const humansList = humans.map((el, i) => (
-      <li key={el.attributes.name + i}>{el.attributes.name}</li>
+      <li key={el + i} onClick={this.handleSelectClick(i)}>{el.name}</li>
     ));
-
     return (
       <div className="sidebar">
         <FormGroup controlId="formBasicText">
@@ -38,8 +39,30 @@ export default class Sidebar extends Component {
   }
   handleChange = (e) => {
     this.setState({value: e.target.value});
+  };
+  handleSelectClick = (index) => () => {
+    this.props.onSelect(index);
   }
 }
 Sidebar.defaultProps = {
   humans: []
 };
+
+
+const mapModelsToProps = (models) => {
+  const { humans } = models;
+  return {
+    humans: humans.toJSON(),
+    addHuman(newHuman) {
+      humans.add(newHuman)
+    },
+  };
+};
+
+const options = {
+  debounce: false,
+  modelTypes: {
+    humans: HumanCollection,
+  },
+};
+export default connectBackboneToReact(mapModelsToProps, options)(Sidebar)

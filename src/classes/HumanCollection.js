@@ -5,7 +5,7 @@ import {Collection} from 'backbone';
 import Human from './Human';
 
 const HumanCollection = Collection.extend({
-  model: Human,
+  model: Human
 });
 
 export default HumanCollection;
