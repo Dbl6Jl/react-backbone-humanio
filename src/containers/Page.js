@@ -9,14 +9,27 @@ import EventPanel from './EventPanel';
 
 export default class Page extends Component {
   render() {
+    console.log(this.props);
+    const { humans } = this.props;
     return (
       <Grid>
         <Row className="show-grid">
-          <Col xs={6} md={4}><Sidebar /></Col>
-          <Col xs={6} md={4}><HumanInfoForm /></Col>
+          <Col xs={6} md={4}><Sidebar onAdd={this.onAdd} onSelect={this.selectHuman} humans={humans}/></Col>
+          <Col xs={6} md={4}><HumanInfoForm onSave={this.onSave}/></Col>
           <Col xsHidden md={4}><EventPanel /></Col>
         </Row>
       </Grid>
     );
+  }
+  onSave = (human) => {
+    const { humans } = this.props;
+    humans.add(human);
+    console.log(human)
+  };
+  onAdd = () => {
+    console.log('add clicked');
+  };
+  selectHuman = (human) => {
+    console.log('human selected: ' + human.toJSON());
   }
 }

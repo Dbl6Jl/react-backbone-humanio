@@ -23,7 +23,7 @@ export default class HumanInfoForm extends Component {
             placeholder="Name"
             onChange={this.handleChange('name')}
           />
-          <Button bsStyle="primary">save</Button>
+          <Button bsStyle="primary" onClick={this.handleSave}>save</Button>
           <FormControl componentClass="textarea" placeholder="notes"
                        value={this.state.notes}
                        onChange={this.handleChange('notes')}
@@ -33,4 +33,5 @@ export default class HumanInfoForm extends Component {
     );
   }
   handleChange = (field) => (e) => this.setState({[field]: e.target.value});
+  handleSave = () => this.props.onSave(this.state);
 }
