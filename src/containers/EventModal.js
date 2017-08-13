@@ -3,13 +3,24 @@
  */
 import React, {Component} from 'react';
 import {Button, FormControl, FormGroup, Modal} from 'react-bootstrap';
-export default class EventModal extends Component {
+import {connectBackboneToReact} from 'connect-backbone-to-react';
+import HumanCollection from '../classes/HumanCollection';
+import {DRAFT_OBJECT_INDEX} from './Page';
+
+class EventModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '', date: ''
     }
   }
+  componentWillReceiveProps(nextProps) {
+    const {selectedHuman, selectedEvent, humans} = nextProps;
+    if(selectedHuman !== DRAFT_OBJECT_INDEX && selectedEvent !== DRAFT_OBJECT_INDEX) {
+      this.setState(humans[selectedHuman].events[selectedEvent]);
+    }
+  }
+
   render() {
     const {show, onClose} = this.props;
     const {onSave} = this;
@@ -50,3 +61,19 @@ export default class EventModal extends Component {
   handleChange = (field) => (e) => this.setState({[field]: e.target.value});
   onSave = () => this.props.onSave(this.state);
 }
+
+const mapModelsToProps = (models) => {
+  const { humans } = models;
+  return {
+    humans: humans.toJSON(),
+  };
+};
+
+const options = {
+  debounce: false,
+  modelTypes: {
+    humans: HumanCollection,
+  },
+};
+
+export default connectBackboneToReact(mapModelsToProps, options)(EventModal);

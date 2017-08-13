@@ -23,7 +23,7 @@ export default class Page extends Component {
   render() {
     const {selectHuman, onAdd, onSave, onDelete, onCloseModal, onEventSave, onOpenModal} = this;
     const {humans} = this.props;
-    const {selectedHuman, showEventModal} = this.state;
+    const {selectedHuman, showEventModal, selectedEvent} = this.state;
     return (
       <Grid>
         <Row className="show-grid">
@@ -35,7 +35,14 @@ export default class Page extends Component {
             <EventPanel models={{humans}} selectedHuman={selectedHuman} onDelete={onDelete} openModal={onOpenModal}/>
           </Col>
         </Row>
-        <EventModal show={showEventModal} onSave={onEventSave} onClose={onCloseModal}/>
+        <EventModal
+          show={showEventModal}
+          onSave={onEventSave}
+          onClose={onCloseModal}
+          selectedEvent={selectedEvent}
+          selectedHuman={selectedHuman}
+          models={{humans}}
+        />
       </Grid>
     );
   }
@@ -64,11 +71,16 @@ export default class Page extends Component {
     }
   };
   onCloseModal = () => this.setState({showEventModal: false});
-  onOpenModal = () => this.setState({showEventModal: true});
+  onOpenModal = (eventIndex) => this.setState({showEventModal: true, selectedEvent: eventIndex});
   onEventSave = (event) => {
     const {humans} = this.props;
     const {selectedHuman, selectedEvent} = this.state;
-    humans.at(selectedHuman).get('events').push(event);
+    if(selectedEvent === DRAFT_OBJECT_INDEX) {
+      humans.at(selectedHuman).get('events').push(event);
+    } else {
+      const human = humans.at(selectedHuman);
+      human.changeEvent(event, selectedEvent);
+    }
     this.setState({showEventModal: false});
   }
 }

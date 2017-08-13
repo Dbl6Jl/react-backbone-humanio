@@ -13,7 +13,7 @@ class EventPanel extends Component {
     const {humans, selectedHuman, onDelete} = this.props;
     const events = selectedHuman !== DRAFT_OBJECT_INDEX ? humans[selectedHuman].events : [];
     const list = events.map((el, i) => (
-      <li key={el.text + el.i}>
+      <li key={el.text + i} onClick={this.openModal(i)}>
         {el.date}
         <br/>
         {el.text}
@@ -29,7 +29,7 @@ class EventPanel extends Component {
       </div>
     );
   }
-  openModal = (eventIndex) => () => this.props.openModal();
+  openModal = (eventIndex) => () => this.props.openModal(eventIndex);
 }
 EventPanel.defaultProps = {
   events: []

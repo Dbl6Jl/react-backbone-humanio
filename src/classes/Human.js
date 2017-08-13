@@ -11,6 +11,9 @@ const Human = Model.extend({
       notes: '',
       events: [{text: 'created', date}, {text: 'changed', date}]
     };
+  },
+  changeEvent: function(newEvent, index) {
+    this.attributes.events = this.attributes.events.map((el, i) => i === index ? newEvent : el);
   }
 });
 export default Human;
