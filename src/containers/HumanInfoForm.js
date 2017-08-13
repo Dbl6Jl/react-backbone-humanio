@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {Button, FormControl, FormGroup} from 'react-bootstrap';
-import {NEW_HUMAN_INDEX} from './Page';
+import {DRAFT_OBJECT_INDEX} from './Page';
 import {connectBackboneToReact} from 'connect-backbone-to-react';
 import HumanCollection from '../classes/HumanCollection';
 
@@ -20,7 +20,7 @@ class HumanInfoForm extends Component {
     const {selectedHuman: newId, humans} = nextProps;
     const {selectedHuman: id} = this.props;
     if(id !== newId) {
-      if(newId === NEW_HUMAN_INDEX) {
+      if(newId === DRAFT_OBJECT_INDEX) {
         this.setState(initialState);
       } else {
         this.setState(humans[newId]);

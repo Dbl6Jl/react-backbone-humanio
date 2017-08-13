@@ -6,36 +6,44 @@ import {Col, Grid, Row} from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import HumanInfoForm from './HumanInfoForm';
 import EventPanel from './EventPanel';
+import EventModal from './EventModal';
 
-export const NEW_HUMAN_INDEX = -1;
+export const DRAFT_OBJECT_INDEX = -1;
 
 export default class Page extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedHuman: NEW_HUMAN_INDEX
+      selectedHuman: DRAFT_OBJECT_INDEX,
+      selectedEvent: DRAFT_OBJECT_INDEX,
+      showEventModal: false
     }
   }
+
   render() {
-    const {selectHuman, onAdd, onSave, onDelete} = this;
-    const { humans } = this.props;
-    const {selectedHuman} = this.state;
+    const {selectHuman, onAdd, onSave, onDelete, onCloseModal, onEventSave, onOpenModal} = this;
+    const {humans} = this.props;
+    const {selectedHuman, showEventModal} = this.state;
     return (
       <Grid>
         <Row className="show-grid">
           <Col xs={6} md={4}>
-            <Sidebar onAdd={onAdd} onSelect={selectHuman} models={{humans}} />
+            <Sidebar onAdd={onAdd} onSelect={selectHuman} models={{humans}}/>
           </Col>
           <Col xs={6} md={4}><HumanInfoForm onSave={onSave} models={{humans}} selectedHuman={selectedHuman}/></Col>
-          <Col xsHidden md={4}><EventPanel models={{humans}} selectedHuman={selectedHuman} onDelete={onDelete}/></Col>
+          <Col xsHidden md={4}>
+            <EventPanel models={{humans}} selectedHuman={selectedHuman} onDelete={onDelete} openModal={onOpenModal}/>
+          </Col>
         </Row>
+        <EventModal show={showEventModal} onSave={onEventSave} onClose={onCloseModal}/>
       </Grid>
     );
   }
+
   onSave = (human) => {
-    const { humans } = this.props;
+    const {humans} = this.props;
     const {selectedHuman} = this.state;
-    if(selectedHuman !== NEW_HUMAN_INDEX){
+    if (selectedHuman !== DRAFT_OBJECT_INDEX) {
       humans.at(selectedHuman).set(human)
     } else {
       this.setState({selectedHuman: humans.length});
@@ -43,7 +51,7 @@ export default class Page extends Component {
     }
   };
   onAdd = () => {
-    this.setState({selectedHuman: NEW_HUMAN_INDEX});
+    this.setState({selectedHuman: DRAFT_OBJECT_INDEX});
   };
   selectHuman = (index) => {
     this.setState({selectedHuman: index});
@@ -51,9 +59,17 @@ export default class Page extends Component {
   onDelete = () => {
     const {humans} = this.props;
     const {selectedHuman} = this.state;
-    if(selectedHuman !== NEW_HUMAN_INDEX) {
-      this.setState({selectedHuman: NEW_HUMAN_INDEX}, ()=>humans.remove(humans.at(selectedHuman)));
+    if (selectedHuman !== DRAFT_OBJECT_INDEX) {
+      this.setState({selectedHuman: DRAFT_OBJECT_INDEX}, () => humans.remove(humans.at(selectedHuman)));
     }
+  };
+  onCloseModal = () => this.setState({showEventModal: false});
+  onOpenModal = () => this.setState({showEventModal: true});
+  onEventSave = (event) => {
+    const {humans} = this.props;
+    const {selectedHuman, selectedEvent} = this.state;
+    humans.at(selectedHuman).get('events').push(event);
+    this.setState({showEventModal: false});
   }
 }
 
