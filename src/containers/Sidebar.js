@@ -48,7 +48,6 @@ Sidebar.defaultProps = {
   humans: []
 };
 
-
 const mapModelsToProps = (models) => {
   const { humans } = models;
   return {
@@ -65,4 +64,5 @@ const options = {
     humans: HumanCollection,
   },
 };
-export default connectBackboneToReact(mapModelsToProps, options)(Sidebar)
+
+export default connectBackboneToReact(mapModelsToProps, options)(Sidebar);

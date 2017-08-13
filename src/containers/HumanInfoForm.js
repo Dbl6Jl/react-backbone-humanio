@@ -3,16 +3,30 @@
  */
 import React, {Component} from 'react';
 import {Button, FormControl, FormGroup} from 'react-bootstrap';
+import {NEW_HUMAN_INDEX} from './Page';
+import {connectBackboneToReact} from 'connect-backbone-to-react';
+import HumanCollection from '../classes/HumanCollection';
 
-export default class HumanInfoForm extends Component {
+const initialState = {
+  name: '',
+  notes: ''
+};
+class HumanInfoForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      notes: ''
+    this.state = initialState;
+  }
+  componentWillReceiveProps(nextProps) {
+    const {selectedHuman: newId} = nextProps;
+    const {selectedHuman: id, humans} = this.props;
+    if(id !== newId) {
+      if(newId === NEW_HUMAN_INDEX) {
+        this.setState(initialState);
+      } else {
+        this.setState(humans[newId]);
+      }
     }
   }
-
   render() {
     return (
       <div className="main-info">
@@ -35,3 +49,14 @@ export default class HumanInfoForm extends Component {
   handleChange = (field) => (e) => this.setState({[field]: e.target.value});
   handleSave = () => this.props.onSave(this.state);
 }
+
+const mapModelsToProps = (models) => ({humans: models.humans.toJSON()});
+
+const options = {
+  debounce: false,
+  modelTypes: {
+    humans: HumanCollection,
+  },
+};
+
+export default connectBackboneToReact(mapModelsToProps, options)(HumanInfoForm);
