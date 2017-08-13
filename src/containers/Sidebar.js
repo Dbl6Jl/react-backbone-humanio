@@ -15,8 +15,9 @@ export default class Sidebar extends Component {
   render() {
     const {humans, onAdd} = this.props;
     const humansList = humans.map((el, i) => (
-      <li key={el.name + i}>el.name</li>
+      <li key={el.attributes.name + i}>{el.attributes.name}</li>
     ));
+
     return (
       <div className="sidebar">
         <FormGroup controlId="formBasicText">
@@ -28,6 +29,7 @@ export default class Sidebar extends Component {
           />
           <Button bsStyle="primary" onClick={onAdd}>new contact</Button>
         </FormGroup>
+        <h3>total: {humans.length}</h3>
         <ul>
           {humansList}
         </ul>
